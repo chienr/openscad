@@ -19,20 +19,20 @@ difference() {
 //      cylinder(h=1, r=2);
 //    }
     translate([7.5, 2, 7.5]) rotate([90]) union() {
-      cylinder(h=2, d=13);
-      translate([0, -6.5/2, 1]) cube([13, 6.5, 2], center=true);
+      cylinder(h=2, d=15);
+      translate([0, -6.5/2, 1]) cube([15, 6.5, 2], center=true);
     }
     translate([7.5, 30, 7.5]) rotate([90]) union() {
-      cylinder(h=2, d=13);
-      translate([0, -6.5/2, 1]) cube([13, 6.5, 2], center=true);
+      cylinder(h=2, d=15);
+      translate([0, -6.5/2, 1]) cube([15, 6.5, 2], center=true);
     }
     translate([120-7.5, 2, 7.5]) rotate([90]) union() {
-      cylinder(h=2, d=13);
-      translate([0, -6.5/2, 1]) cube([13, 6.5, 2], center=true);
+      cylinder(h=2, d=15);
+      translate([0, -6.5/2, 1]) cube([15, 6.5, 2], center=true);
     }
     translate([120-7.5, 30, 7.5]) rotate([90]) union() {
-      cylinder(h=2, d=13);
-      translate([0, -6.5/2, 1]) cube([13, 6.5, 2], center=true);
+      cylinder(h=2, d=15);
+      translate([0, -6.5/2, 1]) cube([15, 6.5, 2], center=true);
     }
   };
   union() {
@@ -57,6 +57,6 @@ difference() {
     translate([60, 42, 0]) cylinder(h=3, d=10);
   }
 };
-translate([60, 60, 0]) cylinder(h=3, d=10);
+//translate([60, 60, 0]) cylinder(h=3, d=10);
 
 //translate([6, 0, 6.5]) rotate([0, 90, 0]) cylinder(h=108, d=2);
