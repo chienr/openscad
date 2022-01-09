@@ -1,18 +1,19 @@
+//translate([-923.6, 0, 0]) import("/Users/chienr/Downloads/Test_-_TS80p_Large_5.stl");
+
 $fn=64;
 // Corner radius
 r=2;
 u=98/3;  // unit ~32.67
 // Height
-//h=44/2;
-h=30;
+//h=44/2;   // battery silos
 // Wall thickness
 t=2;
 
-ux=u*2;
-uy=u*3;
-
-//joiner=[16, 8, 0.8];
-//button=[4, 4, 1.2];
+ux=u*4;
+uy=u*4;
+//ux=185.8;
+//uy=33;
+h=u*4;
 
 difference() {
   union() {
@@ -22,14 +23,15 @@ difference() {
     }
   }
   union() {
-//    AddHollowBox();
-    AddAABatterySilos();
-//    AddAAABatterySilos();
-//    AddJoineryX([uy/2-t-joiner.y/2, -uy/2+t+joiner.y/2]);
-//    AddJoineryY([[0, uy/2-t, h-joiner.y/2]], [[0, -uy/2+t, h-joiner.y/2]]);
+    // AddHollowBox();
+    AddSlots(6);
+    AddFingerHole();
+    AddScrewHoles();
+    // AddSideOpening();
+    // AddAABatterySilos();
+    // AddAAABatterySilos();
   }
 }
-//AddDivider();
 
 module AddCornerHoles() {
   for (x = [-ux/2, ux/2]) {
@@ -48,9 +50,49 @@ module AddHollowBox() {
   }
 }
 
+module AddScrewHoles() {
+  offset=48;
+  AddScrewHole(-offset, offset, 0);
+  AddScrewHole(offset, offset, 0);
+  AddScrewHole(offset, offset, -90);
+  AddScrewHole(offset, -offset, -90);
+}
+
+module AddScrewHole(x, y, orientation=0) {
+  translate([x, y, 0]) rotate([0, 0, orientation]) union() {
+    translate([0, 10, 0]) cylinder(h=t, d=4);
+    translate([0, 10/2, t/2]) cube([4, 10, t], center=true);
+    translate([0, 0, 0]) cylinder(h=t, d=8);
+    translate([0, 0, 4/2+t]) cube([8, 18, 4], center=true);
+  }
+}
+
 module AddDivider() {
   height=h*0.8;
   translate([0, 0, height/2]) cube([t, uy, height], center=true);
+}
+
+module AddSlots(num) {
+  height=h;
+  width=(uy-t*(num+1))/num;
+  step = width+t;
+  for (y = [-uy/2+width/2+t : step : uy/2-width/2-t]) {
+    translate([0, y, height/2+t/2]) cube([ux-t*2, width, height-t], center=true);
+  }
+}
+
+module AddFingerHole() {
+  translate([0, -uy/2, h]) rotate([-90]) cylinder(h=uy, d=50);
+}
+
+module AddSideOpening() {
+  d=25;
+  for (y = [uy/2-t/2, -uy/2+t/2]) {
+    translate([0, y, h/2]) union() {
+      translate([0, 0, h/2]) cube([d, t, h], center=true);
+      translate([0, t/2, 0]) rotate([90, 0, 0]) cylinder(h=t, d=d);
+    }
+  }
 }
 
 module AddAABatterySilos() {
@@ -75,31 +117,3 @@ module AddAAABatterySilos() {
   }
 }
 
-//module AddJoineryX(offsets) {
-//  for (offset = offsets) {
-//    translate([0, offset, button.z+joiner.z/2])
-//        cube([joiner.x, joiner.y, joiner.z], center=true);
-//    for (x = [-joiner.x/4, joiner.x/4]) {
-//      translate([x, offset, 0]) cylinder(h=button.z, d=button.x);
-//    }
-//  }
-//}
-//
-//module AddJoineryY(positives, negatives) {
-//  for (offset = positives) {
-//    translate([0, offset.y+joiner.z/2, offset.z])
-//        cube([joiner.x, joiner.z, joiner.y], center=true);
-//    for (x = [-joiner.x/4, joiner.x/4]) {
-//      translate([x, offset.y+joiner.z, offset.z])
-//          rotate([-90, 0, 0]) cylinder(h=button.z, d=button.x);
-//    }
-//  }
-//  for (offset = negatives) {
-//    translate([0, offset.y-joiner.z/2, offset.z])
-//        cube([joiner.x, joiner.z, joiner.y], center=true);
-//    for (x = [-4, 4]) {
-//      translate([x, offset.y-joiner.z, offset.z])
-//          rotate([90, 0, 0]) cylinder(h=button.z, d=button.x);
-//    }
-//  }
-//}
